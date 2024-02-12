@@ -52,7 +52,6 @@
     "lint-staged": "^15.2.0",
     "postcss": "latest",
     "prettier": "^3.1.1",
-    "prisma": "^5.4.2",
     "tailwindcss": "latest",
     "ts-node": "^10.9.2",
     "typescript": "latest"
