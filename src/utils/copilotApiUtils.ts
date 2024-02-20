@@ -22,7 +22,7 @@ export class CopilotAPI {
   constructor(apiToken: string) {
     this.copilot = copilotApi({
       apiKey: appConfig.copilotApiKey,
-      token: apiToken,
+      tokenString: apiToken,
     });
   }
 
@@ -31,7 +31,7 @@ export class CopilotAPI {
   }
 
   async getWorkspace(): Promise<WorkspaceResponse> {
-    return await WorkspaceResponseSchema.parse(await this.copilot.getWorkspaceInfo());
+    return WorkspaceResponseSchema.parse(await this.copilot.getWorkspaceInfo());
   }
 
   async getClient(clientId: string): Promise<ClientResponse> {
