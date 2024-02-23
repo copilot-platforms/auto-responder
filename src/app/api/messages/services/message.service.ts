@@ -13,8 +13,8 @@ export class MessageService {
   async handleSendMessageWebhook(message: Message, { apiToken }: { apiToken: string }) {
     const settingService = new SettingService();
     const copilotClient = new CopilotAPI(apiToken);
-    const currentUser = await copilotClient.me();
-    const setting = await settingService.findByUserId(currentUser.id);
+    const workspace = await copilotClient.getWorkspace();
+    const setting = await settingService.findByWorkspaceId(workspace.id);
     if (setting?.type === SettingType.DISABLED) {
       return;
     }

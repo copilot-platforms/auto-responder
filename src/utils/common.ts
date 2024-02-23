@@ -3,7 +3,7 @@ import { CopilotAPI } from '@/utils/copilotApiUtils';
 import { WorkingHours } from '@/types/setting';
 import { DayOfWeek, LocalTime, ZonedDateTime, ZoneId } from '@js-joda/core';
 import '@js-joda/timezone';
-import { MeResponse } from '@/types/common';
+import { MeResponse, WorkspaceResponse } from '@/types/common';
 
 export function errorHandler(message: string, status: number = 200) {
   return NextResponse.json(
@@ -12,6 +12,11 @@ export function errorHandler(message: string, status: number = 200) {
       status,
     },
   );
+}
+
+export async function getWorkspace(apiToken: string): Promise<WorkspaceResponse> {
+  const copilotClient = new CopilotAPI(apiToken);
+  return await copilotClient.getWorkspace();
 }
 
 export async function getCurrentUser(apiToken: string): Promise<MeResponse> {

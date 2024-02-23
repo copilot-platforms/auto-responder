@@ -12,6 +12,8 @@ import {
   InternalUsersResponseSchema,
   MeResponse,
   MeResponseSchema,
+  WorkspaceResponse,
+  WorkspaceResponseSchema,
 } from '@/types/common';
 
 export class CopilotAPI {
@@ -20,12 +22,16 @@ export class CopilotAPI {
   constructor(apiToken: string) {
     this.copilot = copilotApi({
       apiKey: appConfig.copilotApiKey,
-      token: apiToken,
+      tokenString: apiToken,
     });
   }
 
   async me(): Promise<MeResponse> {
     return MeResponseSchema.parse(await this.copilot.getUserInfo());
+  }
+
+  async getWorkspace(): Promise<WorkspaceResponse> {
+    return WorkspaceResponseSchema.parse(await this.copilot.getWorkspaceInfo());
   }
 
   async getClient(clientId: string): Promise<ClientResponse> {

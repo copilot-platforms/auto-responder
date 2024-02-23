@@ -5,7 +5,7 @@ import { SettingResponse } from '@/types/setting';
 import AutoResponder from '@/app/components/AutoResponder';
 import { SettingService } from '@/app/api/settings/services/setting.service';
 import { CopilotAPI } from '@/utils/copilotApiUtils';
-import { ClientResponse, CompanyResponse, MeResponse, InternalUsers, InternalUser } from '@/types/common';
+import { ClientResponse, CompanyResponse, MeResponse, InternalUsers, InternalUser, WorkspaceResponse } from '@/types/common';
 import { z } from 'zod';
 import appConfig from '@/config/app';
 
@@ -23,9 +23,10 @@ async function getContent(searchParams: SearchParams) {
   }
 
   const copilotAPI = new CopilotAPI(z.string().parse(searchParams.token));
-  const result: { client?: ClientResponse; company?: CompanyResponse; me?: MeResponse } = {};
+  const result: { client?: ClientResponse; company?: CompanyResponse; me?: MeResponse; workspace?: WorkspaceResponse } = {};
 
   result.me = await copilotAPI.me();
+  result.workspace = await copilotAPI.getWorkspace();
 
   if (searchParams.clientId && typeof searchParams.clientId === 'string') {
     result.client = await copilotAPI.getClient(searchParams.clientId);
@@ -58,7 +59,7 @@ async function getInternalUsers(token: string): Promise<InternalUsers> {
 }
 
 export default async function Page({ searchParams }: { searchParams: SearchParams }) {
-  const { me } = await getContent(searchParams);
+  const { me, workspace } = await getContent(searchParams);
   const internalUsers = await getInternalUsers(searchParams.token as string);
 
   let internalUsersWithClientAccessLimitedFalse: InternalUsers = { data: [] };
@@ -67,7 +68,7 @@ export default async function Page({ searchParams }: { searchParams: SearchParam
     internalUsersWithClientAccessLimitedFalse = { data: _internalUsers };
   }
 
-  const setting = await settingsService.findByUserId(me?.id as string);
+  const setting = await settingsService.findByWorkspaceId(workspace?.id as string);
   const saveSettings = async (data: SettingsData) => {
     'use server';
     const setting = {
@@ -82,6 +83,7 @@ export default async function Page({ searchParams }: { searchParams: SearchParam
           }))
         : data.selectedDays,
       senderId: data.senderId,
+      workspaceId: workspace?.id,
     };
     await settingsService.save(setting, {
       apiToken: z.string().parse(searchParams.token),

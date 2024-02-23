@@ -9,6 +9,27 @@ export const MeResponseSchema = z.object({
 });
 export type MeResponse = z.infer<typeof MeResponseSchema>;
 
+// Response schema for `/workspace` endpoint
+export const WorkspaceResponseSchema = z.object({
+  id: z.string(),
+  industry: z.string().optional(),
+  isCompaniesEnabled: z.boolean().optional(),
+  isClientDirectSignUpEnabled: z.boolean().optional(),
+  logOutUrl: z.string().optional(),
+  brandName: z.string().optional(),
+  squareIconUrl: z.string().optional(),
+  fullLogoUrl: z.string().optional(),
+  squareLoginImageUrl: z.string().optional(),
+  socialSharingImageUrl: z.string().optional(),
+  colorSidebarBackground: z.string().optional(),
+  colorSidebarText: z.string().optional(),
+  colorAccent: z.string().optional(),
+  font: z.string().optional(),
+  metaTitle: z.string().optional(),
+  metaDescription: z.string().optional(),
+});
+export type WorkspaceResponse = z.infer<typeof WorkspaceResponseSchema>;
+
 export const ClientResponseSchema = z.object({
   id: z.string(),
   givenName: z.string(),
