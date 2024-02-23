@@ -23,7 +23,18 @@ async function getContent(searchParams: SearchParams) {
   }
 
   const copilotAPI = new CopilotAPI(z.string().parse(searchParams.token));
-  const result: { client?: ClientResponse; company?: CompanyResponse; me?: MeResponse; workspace?: WorkspaceResponse } = {};
+  const result: {
+    client?: ClientResponse;
+    company?: CompanyResponse;
+    me?: MeResponse;
+    workspace?: WorkspaceResponse;
+    currentUserId?: string;
+  } = {};
+
+  const payload = await copilotAPI.getTokenPayload();
+  if (payload) {
+    result.currentUserId = payload?.internalUserId;
+  }
 
   result.me = await copilotAPI.me();
   result.workspace = await copilotAPI.getWorkspace();
@@ -39,7 +50,7 @@ async function getContent(searchParams: SearchParams) {
   return result;
 }
 
-const populateSettingsFormData = (settings: SettingResponse): SettingsData => {
+const populateSettingsFormData = (settings: SettingResponse, currentUserId?: string): SettingsData => {
   return {
     autoRespond: settings?.type || $Enums.SettingType.DISABLED,
     response: settings?.message || null,
@@ -49,7 +60,8 @@ const populateSettingsFormData = (settings: SettingResponse): SettingsData => {
       startHour: workingHour.startTime as HOUR,
       endHour: workingHour.endTime as HOUR,
     })),
-    senderId: settings?.senderId,
+    // If no senderId in settings (like in new workspace), default to current user
+    senderId: settings?.senderId || currentUserId || '',
   };
 };
 
@@ -59,7 +71,7 @@ async function getInternalUsers(token: string): Promise<InternalUsers> {
 }
 
 export default async function Page({ searchParams }: { searchParams: SearchParams }) {
-  const { me, workspace } = await getContent(searchParams);
+  const { workspace, currentUserId } = await getContent(searchParams);
   const internalUsers = await getInternalUsers(searchParams.token as string);
 
   let internalUsersWithClientAccessLimitedFalse: InternalUsers = { data: [] };
@@ -95,7 +107,7 @@ export default async function Page({ searchParams }: { searchParams: SearchParam
       <AutoResponder
         onSave={saveSettings}
         activeSettings={{
-          ...populateSettingsFormData(setting as SettingResponse),
+          ...populateSettingsFormData(setting as SettingResponse, currentUserId),
         }}
         internalUsers={internalUsersWithClientAccessLimitedFalse}
       />

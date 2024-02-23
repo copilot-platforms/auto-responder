@@ -6,23 +6,26 @@ import { DefaultService as Copilot } from 'copilot-node-sdk/codegen/api/services
 import {
   ClientResponse,
   ClientResponseSchema,
-  ClientsResponseSchema,
   CompanyResponse,
   CompanyResponseSchema,
   InternalUsersResponseSchema,
   MeResponse,
   MeResponseSchema,
+  Token,
+  TokenSchema,
   WorkspaceResponse,
   WorkspaceResponseSchema,
 } from '@/types/common';
 
+type SDK = typeof Copilot & { getTokenPayload?: () => Promise<Token> };
+
 export class CopilotAPI {
-  copilot: typeof Copilot;
+  copilot: SDK;
 
   constructor(apiToken: string) {
     this.copilot = copilotApi({
       apiKey: appConfig.copilotApiKey,
-      tokenString: apiToken,
+      token: apiToken,
     });
   }
 
@@ -40,6 +43,11 @@ export class CopilotAPI {
 
   async getInternalUsers() {
     return InternalUsersResponseSchema.parse(await this.copilot.listInternalUsers({}));
+  }
+
+  async getTokenPayload() {
+    const tokenPayload = await this.copilot.getTokenPayload?.();
+    return tokenPayload ? TokenSchema.parse(tokenPayload) : null;
   }
 
   async getCompany(companyId: string): Promise<CompanyResponse> {

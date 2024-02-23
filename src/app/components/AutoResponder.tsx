@@ -1,4 +1,5 @@
 'use client';
+
 import { z } from 'zod';
 import { useEffect, useRef, useState } from 'react';
 import TimezoneSelect, { ITimezone } from 'react-timezone-select';
@@ -24,7 +25,7 @@ import {
   SelectedDay,
   SettingsData,
 } from '@/constants';
-import { InternalUser, InternalUserSchema, InternalUsers } from '@/types/common';
+import { InternalUser, InternalUsers } from '@/types/common';
 import { MenuItem, Select, SelectChangeEvent } from '@mui/material';
 
 const defaultSelectedDays: SelectedDay[] = [
@@ -60,6 +61,7 @@ interface Props {
   activeSettings: SettingsData;
   internalUsers: InternalUsers;
 }
+
 const DropdownIndicator = (props: DropdownIndicatorProps<ITimezone, false, GroupBase<ITimezone>>) => {
   return (
     <components.DropdownIndicator {...props}>

@@ -1,11 +1,20 @@
 import { z } from 'zod';
 
+export const TokenSchema = z.object({
+  clientId: z.string().optional(),
+  companyId: z.string().optional(),
+  internalUserId: z.string().optional(),
+  workspaceId: z.string(),
+});
+
+export type Token = z.infer<typeof TokenSchema>;
+
 export const MeResponseSchema = z.object({
   id: z.string(),
   givenName: z.string(),
   familyName: z.string(),
   email: z.string(),
-  portalName: z.string(),
+  portalName: z.string().optional(),
 });
 export type MeResponse = z.infer<typeof MeResponseSchema>;
 
