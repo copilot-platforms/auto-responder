@@ -13,6 +13,8 @@ import {
   MeResponseSchema,
   Token,
   TokenSchema,
+  WorkspaceResponse,
+  WorkspaceResponseSchema,
 } from '@/types/common';
 
 type SDK = typeof Copilot & { getTokenPayload?: () => Promise<Token> };
@@ -23,12 +25,16 @@ export class CopilotAPI {
   constructor(apiToken: string) {
     this.copilot = copilotApi({
       apiKey: appConfig.copilotApiKey,
-      tokenString: apiToken,
+      token: apiToken,
     });
   }
 
   async me(): Promise<MeResponse> {
     return MeResponseSchema.parse(await this.copilot.getUserInfo());
+  }
+
+  async getWorkspace(): Promise<WorkspaceResponse> {
+    return WorkspaceResponseSchema.parse(await this.copilot.getWorkspaceInfo());
   }
 
   async getClient(clientId: string): Promise<ClientResponse> {
