@@ -276,7 +276,7 @@ const AutoResponder = ({ onSave, activeSettings, internalUsers }: Props) => {
             <div className="w-full max-w-[880px] mx-auto">
               <Fieldset
                 title="Auto responder configuration"
-                info="Set up automatic responses to incoming messages in the Messages App. If clients send you several messages, auto-response will be sent at most once every hour (in any given message channel)."
+                info="Set up automatic responses to incoming messages in the Messages App. If clients send you several messages, auto-response will be sent at most once every hour (per message channel)."
               >
                 <Typography text="Enable auto response" variant="label" className="mb-1.5 text-text" />
                 <Controller
