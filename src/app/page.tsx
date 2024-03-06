@@ -8,6 +8,7 @@ import { CopilotAPI } from '@/utils/copilotApiUtils';
 import { ClientResponse, CompanyResponse, MeResponse, InternalUsers, InternalUser, WorkspaceResponse } from '@/types/common';
 import { z } from 'zod';
 import appConfig from '@/config/app';
+import InvalidToken from './components/InvalidToken';
 
 type SearchParams = { [key: string]: string | string[] | undefined };
 
@@ -71,6 +72,11 @@ async function getInternalUsers(token: string): Promise<InternalUsers> {
 }
 
 export default async function Page({ searchParams }: { searchParams: SearchParams }) {
+  const token = z.string().safeParse(searchParams.token);
+  if (!token.success) {
+    return <InvalidToken />;
+  }
+
   const { workspace, currentUserId } = await getContent(searchParams);
   const internalUsers = await getInternalUsers(searchParams.token as string);
 
