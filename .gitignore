@@ -37,3 +37,6 @@ next-env.d.ts
 /migrations/migration_lock.toml
 .idea
 /.vscode/
+
+# Sentry Config File
+.sentryclirc
