@@ -52,7 +52,7 @@ export class MessageService {
       }
     } catch (e: unknown) {
       if (e instanceof ApiError) {
-        if (e.request?.errors && e.request?.errors['404'] === '404') {
+        if (e.request?.errors && e.request.errors['404'] === '404') {
           return;
         }
       }
