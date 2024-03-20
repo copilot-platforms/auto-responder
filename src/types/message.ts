@@ -6,7 +6,7 @@ export const MessageSchema = z.object({
   senderId: z.string().uuid(),
   createdAt: z.string().datetime(),
   updatedAt: z.string().datetime(),
-  channelId: z.string().uuid(),
+  channelId: z.string(),
   isAttachmentIncluded: z.boolean(),
   text: z.string(),
 });
@@ -14,7 +14,7 @@ export type Message = z.infer<typeof MessageSchema>;
 
 export const SendMessageRequestSchema = z.object({
   text: z.string(),
-  channelId: z.string().uuid(),
+  channelId: z.string(),
   senderId: z.string().uuid(),
 });
 export type SendMessageRequest = z.infer<typeof SendMessageRequestSchema>;

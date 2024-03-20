@@ -31,7 +31,7 @@ model Message {
   id        String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
   message   String
   clientId  String   @db.Uuid
-  channelId String   @db.Uuid
+  channelId String
   senderId  String   @db.Uuid
   createdAt DateTime @default(now()) @db.Timestamptz()
   updatedAt DateTime @updatedAt @ignore @db.Timestamptz()
