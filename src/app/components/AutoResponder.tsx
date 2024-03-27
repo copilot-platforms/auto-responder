@@ -229,6 +229,9 @@ const AutoResponder = ({ onSave, activeSettings, internalUsers }: Props) => {
   };
 
   const validateWorkingHours = (selectedDays: SelectedDay[]) => {
+    if (autoRespond === SettingType.ENABLED) {
+      return true;
+    }
     let newErrors = { ...workingHoursErrors };
     selectedDays.forEach((selectedDay) => {
       const { startHour, endHour } = selectedDay;
