@@ -266,7 +266,12 @@ const AutoResponder = ({ onSave, activeSettings, internalUsers }: Props) => {
     setWorkingHoursErrors({});
   };
 
-  console.log(errors);
+  const checkFormErrors = () => {
+    if (autoRespond === SettingType.ENABLED) {
+      delete errors.selectedDays;
+    }
+    return !!Object.keys(errors).length;
+  };
 
   return (
     <ErrorBoundary fallback={<div>Something went wrong</div>}>
@@ -389,7 +394,7 @@ const AutoResponder = ({ onSave, activeSettings, internalUsers }: Props) => {
               </button>
               <button
                 type="submit"
-                disabled={!!Object.keys(errors).length}
+                disabled={checkFormErrors()}
                 className="h-8 py-1 px-3 bg-slate-800 rounded-md min-w-[70px] text-white hover:bg-slate-900 text-sm disabled:cursor-not-allowed disabled:opacity-70"
               >
                 {saving ? 'Saving...' : 'Save changes'}
