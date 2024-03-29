@@ -276,7 +276,19 @@ const AutoResponder = ({ onSave, activeSettings, internalUsers }: Props) => {
   return (
     <ErrorBoundary fallback={<div>Something went wrong</div>}>
       <FormProvider {...methods}>
-        <form onSubmit={handleSubmit(onSubmit)} className="h-full flex flex-col">
+        <form
+          onSubmit={(e) => {
+            e.preventDefault();
+            handleSubmit(onSubmit)();
+            // This is a hacky way of doing things, but isDirty is not being set to false even when there are no errors.
+            // If error exists and isDirty, it will already have been handled
+            // This is for when there are no errors, but for some reason isDirty refuses to be reset
+            if (Object.keys(errors).length === 0 && isDirty) {
+              onSubmit(getValues());
+            }
+          }}
+          className="h-full flex flex-col"
+        >
           <div className="w-full flex-1 overflow-y-scroll px-6 py-16">
             <div className="w-full max-w-[880px] mx-auto">
               <Fieldset
