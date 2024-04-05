@@ -5,7 +5,7 @@ import { SettingResponse } from '@/types/setting';
 import AutoResponder from '@/app/components/AutoResponder';
 import { SettingService } from '@/app/api/settings/services/setting.service';
 import { CopilotAPI } from '@/utils/copilotApiUtils';
-import { ClientResponse, CompanyResponse, MeResponse, InternalUsers, InternalUser, WorkspaceResponse } from '@/types/common';
+import { ClientResponse, CompanyResponse, InternalUsers, InternalUser, WorkspaceResponse } from '@/types/common';
 import { z } from 'zod';
 import appConfig from '@/config/app';
 import InvalidToken from './components/InvalidToken';
@@ -14,12 +14,16 @@ type SearchParams = { [key: string]: string | string[] | undefined };
 
 const settingsService = new SettingService();
 
-async function getContent(searchParams: SearchParams) {
+async function getContent(searchParams: SearchParams): Promise<{
+  client?: ClientResponse;
+  company?: CompanyResponse;
+  workspace?: WorkspaceResponse;
+  currentUserId?: string;
+}> {
   if (!searchParams.token) {
     return {
       client: undefined,
       company: undefined,
-      me: undefined,
     };
   }
 
@@ -27,7 +31,6 @@ async function getContent(searchParams: SearchParams) {
   const result: {
     client?: ClientResponse;
     company?: CompanyResponse;
-    me?: MeResponse;
     workspace?: WorkspaceResponse;
     currentUserId?: string;
   } = {};
@@ -37,7 +40,6 @@ async function getContent(searchParams: SearchParams) {
     result.currentUserId = payload?.internalUserId;
   }
 
-  result.me = await copilotAPI.me();
   result.workspace = await copilotAPI.getWorkspace();
 
   if (searchParams.clientId && typeof searchParams.clientId === 'string') {
