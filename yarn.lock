@@ -2810,10 +2810,10 @@ convert-source-map@^2.0.0:
   resolved "https://registry.npmjs.org/convert-source-map/-/convert-source-map-2.0.0.tgz"
   integrity sha512-Kvp459HrV2FEJ1CAsi1Ku+MY3kasH19TFykTz2xWmMeq6bk2NU3XXvfJ+Q61m0xktWwt+1HSYf3JZsTms3aRJg==
 
-copilot-node-sdk@^1.2.2:
-  version "1.3.0"
-  resolved "https://registry.yarnpkg.com/copilot-node-sdk/-/copilot-node-sdk-1.3.0.tgz#1812340981cd7034800d605039b6bd49851e8050"
-  integrity sha512-7RTAWVN2qjWstq5gnERl3r14hMiyFvWz7l15+FbjFC0t1GQyg8kq4vDGHXHOpLmWlHvVBA08cqsA+pL2p6LMHw==
+copilot-node-sdk@^2.0.0:
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/copilot-node-sdk/-/copilot-node-sdk-2.0.0.tgz#d70af16a552ef8bea42288c446637cb156a615d8"
+  integrity sha512-9LqBbRxBhMfKJWy3I3ez7GoiQbU7qvbbBrMhRNs+1G09tHsvuZGmGKbFBPiKVwSOnxH83a8GkmO8j09kGb8Hpg==
   dependencies:
     isomorphic-fetch "^3.0.0"
     jsonwebtoken "^9.0.2"

@@ -32,7 +32,7 @@
     "@radix-ui/react-select": "^2.0.0",
     "@sentry/nextjs": "^7.105.0",
     "@vercel/postgres": "^0.5.0",
-    "copilot-node-sdk": "^1.2.2",
+    "copilot-node-sdk": "^2.0.0",
     "dotenv-run-script": "^0.4.1",
     "next": "^14.0.4",
     "next-plugin-svgr": "^1.1.8",
