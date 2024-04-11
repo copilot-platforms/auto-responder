@@ -19,7 +19,7 @@ export async function getWorkspace(apiToken: string): Promise<WorkspaceResponse>
   return await copilotClient.getWorkspace();
 }
 
-export async function getCurrentUser(apiToken: string): Promise<MeResponse> {
+export async function getCurrentUser(apiToken: string): Promise<MeResponse | null> {
   const copilotClient = new CopilotAPI(apiToken);
   return await copilotClient.me();
 }

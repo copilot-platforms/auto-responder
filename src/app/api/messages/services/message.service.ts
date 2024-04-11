@@ -6,7 +6,7 @@ import { SettingResponse } from '@/types/setting';
 import { Message, SendMessageRequestSchema } from '@/types/message';
 import DBClient from '@/lib/db';
 import { z } from 'zod';
-import { ApiError } from 'copilot-node-sdk/codegen/api';
+import { CopilotAPIError, matchesCopilotApiError } from '@/exceptions/copilot';
 
 export class MessageService {
   private prismaClient: PrismaClient = DBClient.getInstance();
@@ -51,7 +51,7 @@ export class MessageService {
         await this.sendMessage(copilotClient, setting, message);
       }
     } catch (e: unknown) {
-      if (e instanceof ApiError) {
+      if (matchesCopilotApiError(e)) {
         if (e.request?.errors && e.request.errors['404'] === '404') {
           return;
         }

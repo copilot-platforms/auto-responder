@@ -20,6 +20,8 @@ export class SettingService {
 
   async save(requestData: SettingRequest, { apiToken }: { apiToken: string }): Promise<void> {
     const currentUser = await getCurrentUser(apiToken);
+    if (!currentUser) throw new Error('No user associated with this session');
+
     const currentWorkspace = await getWorkspace(apiToken);
 
     const settingByWorkspace = await this.prismaClient.setting.findFirst({
