@@ -6,6 +6,6 @@ export declare class CopilotAPIError {
   };
 }
 
-export const matchesCopilotApiError = (err: unknown) => {
+export const matchesCopilotApiError = (err: unknown): err is CopilotAPIError => {
   return !!(err as any)?.request?.errors?.length;
 };

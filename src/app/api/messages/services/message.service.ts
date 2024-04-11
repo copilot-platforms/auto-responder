@@ -52,8 +52,7 @@ export class MessageService {
       }
     } catch (e: unknown) {
       if (matchesCopilotApiError(e)) {
-        const castedErr = e as CopilotAPIError;
-        if (castedErr.request?.errors && castedErr.request.errors['404'] === '404') {
+        if (e.request?.errors && e.request.errors['404'] === '404') {
           return;
         }
       }
