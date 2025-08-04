@@ -4,6 +4,7 @@ import { MessageSchema } from '@/types/message';
 import { MessageService } from '@/app/api/messages/services/message.service';
 import appConfig from '@/config/app';
 import { WebhookSchema } from '@/types/webhook';
+import { hasTimeExceeded } from '@/utils/hasTimeExceeded';
 
 export async function POST(request: NextRequest) {
   const rawBody = await request.text();
@@ -47,6 +48,10 @@ export async function POST(request: NextRequest) {
         { status: 400 },
       );
     }
+  }
+  if (hasTimeExceeded(payload.data.createdAt)) {
+    console.info('Autoresponse failed due to stale webhook timestamp. ', payload.data);
+    return NextResponse.json({});
   }
 
   const messageService = new MessageService();

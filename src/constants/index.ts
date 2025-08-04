@@ -7,6 +7,8 @@ export enum AUTO_RESPONSE {
   OFF = 'off',
 }
 
+export const AUTO_RESPONSE_TIME_THRESHOLD = 60;
+
 export const AUTO_RESPONSE_OPTIONS: SelectOption<$Enums.SettingType>[] = [
   {
     value: $Enums.SettingType.OUTSIDE_WORKING_HOURS,
